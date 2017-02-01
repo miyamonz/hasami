@@ -1,7 +1,6 @@
 import {desktopCapturer} from "electron"
 
-export default () => {
-
+export default (callback) => {
     desktopCapturer.getSources({types: ['window', 'screen']}, (error, sources) => {
         if (error) throw error
         for (let i = 0; i < sources.length; ++i) {
@@ -24,15 +23,20 @@ export default () => {
             }
         }
     })
-
 }
 function handleStream (stream) {
     console.log("hello", stream)
-    document.querySelector('video').src = URL.createObjectURL(stream)
+    let video = document.createElement("video");
+    video.src = URL.createObjectURL(stream)
+    let canvas = document.createElement("canvas");
+    let context = canvas.getContext("2d")
+    context.drawImage(video, 0, 0, canvas.width, canvas.height)
+    console.log(canvas, context)
+    let url = canvas.toDataURL()
+    console.log(url)
 
 }
 
 function handleError (e) {
     console.log(e)
-
 }
