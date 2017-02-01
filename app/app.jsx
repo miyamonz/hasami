@@ -7,19 +7,37 @@ export default class extends Component  {
     super(props)
     this.state = {
       cropped: false,
+      rect: {},
+      url: "",
     }
   }
   render(){
-    let onClip = url => {
+    let onClip = rect => {
       console.log("cliped")
-      this.setState({cropped: true})
+      console.log(rect)
+      this.setState({cropped: true, rect})
+      capture(rect, image => {
+        let url = image.toDataURL();
+        this.setState({url})
+      })
     }
     return (
       <div>
         {this.state.cropped ?
-        <div>
+        <div style={{
+          backgroundColor: "rgba(255,255,255,1)",
+          }}>
           cliped!
-          <img src="" />
+          <img src={this.state.url} />
+          <div style={{
+            backgroundColor:"rgba(0,0,0,0)",
+            position:"absolute",
+            left: this.state.rect.x,
+            top:  this.state.rect.y,
+            width:  this.state.rect.width,
+            height: this.state.rect.height,
+
+            }}></div>
         </div>
         :
         <Clip onCrop={onClip} />

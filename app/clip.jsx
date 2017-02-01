@@ -34,9 +34,8 @@ export default class extends Component  {
       })
     }
     let onMouseUp = e => {
-      console.log(JSON.stringify(this.state.rect))
       this.setState({cropping: false,cropped:true, rect: {}})
-      this.props.onCrop();
+      this.props.onCrop(this.state.rect);
     }
     let onMouseDown = e => {
       e.preventDefault();
