@@ -1,73 +1,27 @@
 import React, {Component} from "react"
+import Clip from "./clip.jsx"
 import capture from "./capture.js"
 
-let createRect = (a,b) => {
-    return {
-        x: Math.min(a.x, b.x),
-        y: Math.min(a.y, b.y),
-        width:   Math.abs(a.x - b.x),
-        height: Math.abs(a.y - b.y),
-    }
-}
-
 export default class extends Component  {
-    constructor(props){
-        super(props)
-        this.state = {
-            x: 0,
-            y: 0,
-            cropping: false,
-            downPoint: {},
-            rect: {},
-        }
+  constructor(props){
+    super(props)
+    this.state = {
+      cropped: false,
     }
-    render(){
-        let onMouseMove = e => {
-            let nowPoint = {
-                x: e.clientX,
-                y: e.clientY, 
-            }
-            this.setState(nowPoint)
-            if(!this.state.cropping) return
-            this.setState({
-                rect: createRect(this.state.downPoint, nowPoint)
-            })
+  }
+  render(){
+    let onClip = url => {
+      console.log("cliped")
+      this.setState({cropped: true})
+    }
+    return (
+      <div>
+        {this.state.cropped ?
+        <img src="" />
+        :
+        <Clip onCrop={onClip} />
         }
-        let onMouseUp = e => {
-            console.log(JSON.stringify(this.state.rect))
-            this.setState({cropping: false, rect: {}})
-            capture();
-
-        }
-        let onMouseDown = e => {
-            e.preventDefault();
-            this.setState({cropping: true, downPoint: {x: e.clientX, y: e.clientY}})
-        }
-        return (
-            <div 
-                className="window"
-                onMouseMove={onMouseMove}
-                onMouseUp={onMouseUp}
-                onMouseDown={onMouseDown}
-            >
-                <div className="rect" key="rect" style={{
-                    left: this.state.rect.x,
-                    top: this.state.rect.y,
-                    width: this.state.rect.width,
-                    height: this.state.rect.height,
-                    }}></div>
-                <div className="cursor" key="cursor" style={{
-                    left: this.state.x,
-                    top: this.state.y,
-                    }}>
-                    <div className="indicator">{this.state.rect.x + "\n" + this.state.rect.y}</div>
-                </div>
-                <div className="popup" style={{
-                    posotion: "absolute",
-                    left: this.state.x,
-                    top: this.state.y,
-                    }}>hello this is popup</div>
-            </div>
-            )
+      </div>
+      )
     }
 }
