@@ -49,6 +49,7 @@ export default class extends Component  {
         onMouseUp={onMouseUp}
         onMouseDown={onMouseDown}
       >
+        "a"
         <div className="rect" key="rect" style={{
           left: this.state.rect.x,
           top: this.state.rect.y,
@@ -59,13 +60,10 @@ export default class extends Component  {
           left: this.state.x,
           top: this.state.y,
           }}>
-          <div className="indicator">{this.state.rect.x + "\n" + this.state.rect.y}</div>
+          <div className="indicator">
+            {this.state.rect.width + "\n" + this.state.rect.height}
+          </div>
         </div>
-        <div className="popup" style={{
-          posotion: "absolute",
-          left: this.state.x,
-          top: this.state.y,
-          }}>hello this is popup</div>
       </div>
       )
     }
