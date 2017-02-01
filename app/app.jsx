@@ -17,7 +17,10 @@ export default class extends Component  {
     return (
       <div>
         {this.state.cropped ?
-        <img src="" />
+        <div>
+          cliped!
+          <img src="" />
+        </div>
         :
         <Clip onCrop={onClip} />
         }
